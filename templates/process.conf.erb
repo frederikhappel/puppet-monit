@@ -1,0 +1,15 @@
+# This file is managed by puppet! Do not change!
+check process <%= @name %> with pidfile <%= @pidfile %> every <%= @cycles %> cycles
+<% if @start_timeout_in_seconds.to_i > 0 -%>
+  start program = "<%= @start_program %>" with timeout <%= @start_timeout_in_seconds %> seconds
+<% else -%>
+  start program = "<%= @start_program %>"
+<% end -%>
+<% if @stop_timeout_in_seconds.to_i > 0 -%>
+  stop program = "<%= @stop_program %>" with timeout <%= @stop_timeout_in_seconds %> seconds
+<% else -%>
+  stop program = "<%= @stop_program %>"
+<% end -%>
+<% @conditions.each do |condition| -%>
+  <%= condition %>
+<% end -%>

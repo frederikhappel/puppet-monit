@@ -1,0 +1,20 @@
+# This file is managed by puppet! Do not change!
+set daemon <%= @interval %>
+
+set logfile syslog facility log_daemon
+set idfile <%= @rundir %>/id
+set statefile <%= @rundir %>/state
+
+set eventqueue basedir <%= @eventdir %> slots 1000
+<% if !@adminuser.nil? and !@adminpass.nil? -%>
+set httpd port <%= @adminport %> and
+  allow <%= @adminuser %>:<%= @adminpass %>
+  signature disable
+<% else -%>
+set httpd port <%= @adminport %> and
+  use the address localhost
+  allow localhost 
+  signature disable
+<% end -%>
+
+include <%= @cfgddir %>/*.conf
